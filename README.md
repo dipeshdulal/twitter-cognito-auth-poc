@@ -5,7 +5,7 @@ There is a way to add custom IDP using OIDC but twitter doesn't support OIDC.
 This adds some way to transform the input data from cognito and proxy request to twitter.
 
 JWKS endpoints are not called by cognito when using PKCS method of authentication.
-Looks like any random values can be added in the cognito endpoint configuration.
+Looks like any random values can be added in the cognito endpoint configuration as they are used.
 
 #### Running
 
