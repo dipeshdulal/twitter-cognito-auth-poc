@@ -86,6 +86,9 @@ func main() {
 		}
 		query.Add("state", oldState)
 
+    delete(stateCodeChallenge, state)
+    delete(stateCache, state)
+
 		c.Redirect(http.StatusFound, cognitoUrl+"?"+query.Encode())
 	})
 
@@ -133,7 +136,11 @@ func main() {
 		// return response as is
 		c.Header("Content-Type", "application/json")
 		c.Status(response.StatusCode)
-		io.Copy(c.Writer, response.Body)
+    if _, err := io.Copy(c.Writer, response.Body); err != nil {
+      c.JSON(http.StatusBadRequest, gin.H{"error": "invalid response"})
+      return
+    }
+    delete(codeCodeChallenge, code)
 	})
 
 	engine.GET("/userinfo", func(c *gin.Context) {
